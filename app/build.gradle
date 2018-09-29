@@ -33,6 +33,8 @@ ext {
     retrofitVersion = "2.4.0"
     glideVersion = "4.8.0"
     gsonVersion = "2.3.0"
+    koinVersion = "1.0.1"
+
 }
 
 dependencies {
@@ -45,11 +47,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    //dagger
-    implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    //di
+    implementation "org.koin:koin-android:$koinVersion"
 
     //networking
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
