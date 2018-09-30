@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import com.lukakordic.weatherapp.R
+import com.lukakordic.weatherapp.R.layout.toolbar
 import com.lukakordic.weatherapp.ui.adapter.TabsPageAdapter
 import com.lukakordic.weatherapp.ui.view.fragment.ForecastFragment
 import com.lukakordic.weatherapp.ui.view.fragment.WeatherFragment
@@ -17,7 +18,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         initUI()
-        cityName.text = "Weather App"
+        toolbarTitle.text = getString(R.string.toolbar_title)
     }
 
     private fun initUI() {

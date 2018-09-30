@@ -6,17 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lukakordic.weatherapp.R
-import com.lukakordic.weatherapp.data.response.WeatherResponse
+import com.lukakordic.weatherapp.data.model.WeatherResponse
 import com.lukakordic.weatherapp.presentation.WeatherPresenter
 import com.lukakordic.weatherapp.ui.view.WeatherView
+import com.lukakordic.weatherapp.utils.loadWeatherIcon
 import com.lukakordic.weatherapp.utils.toast
+import kotlinx.android.synthetic.main.fragment_weather.*
 import org.koin.android.ext.android.inject
 
 class WeatherFragment : Fragment(), WeatherView {
+    override fun showCityName(city: String) {}
+
+    override fun showWeatherIcon(icon: String) {}
 
     private val weatherPresenter: WeatherPresenter by inject()
-
-    override fun showWeather(weather: WeatherResponse) = toast("Incoming")
 
     override fun showNetworkError(error: Throwable) = toast("Jebi ga, ne radi")
 

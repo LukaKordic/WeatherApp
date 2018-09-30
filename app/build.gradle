@@ -34,6 +34,7 @@ ext {
     glideVersion = "4.8.0"
     gsonVersion = "2.3.0"
     koinVersion = "1.0.1"
+    roomVersion = "1.1.1"
 
 }
 
@@ -62,4 +63,8 @@ dependencies {
 
     //logging
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+
+    //database
+    implementation "android.arch.persistence.room:runtime:$roomVersion"
+    kapt "android.arch.persistence.room:compiler:$roomVersion"
 }

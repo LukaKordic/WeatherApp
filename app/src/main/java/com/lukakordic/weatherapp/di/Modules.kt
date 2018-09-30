@@ -1,11 +1,14 @@
 package com.lukakordic.weatherapp.di
 
+import android.arch.persistence.room.Room
 import com.lukakordic.weatherapp.WeatherApp
+import com.lukakordic.weatherapp.data.db.WeatherDb
 import com.lukakordic.weatherapp.interaction.WeatherInteractor
 import com.lukakordic.weatherapp.interaction.impl.WeatherInteractorImpl
 import com.lukakordic.weatherapp.networking.WeatherApiService
 import com.lukakordic.weatherapp.presentation.WeatherPresenter
 import com.lukakordic.weatherapp.presentation.impl.WeatherPresenterImpl
+import com.lukakordic.weatherapp.utils.DB_NAME
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -42,4 +45,13 @@ val presentationModule = module {
 
 val interactionModule = module {
     factory { WeatherInteractorImpl(get()) as WeatherInteractor }
+}
+
+val dbModule = module {
+    single {
+        Room.databaseBuilder(get(), WeatherDb::class.java, DB_NAME)
+                .build()
+    }
+
+    single { get<WeatherDb>().weatherDao() }
 }

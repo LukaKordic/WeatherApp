@@ -1,6 +1,6 @@
 package com.lukakordic.weatherapp.presentation.impl
 
-import com.lukakordic.weatherapp.data.response.WeatherResponse
+import com.lukakordic.weatherapp.data.model.WeatherResponse
 import com.lukakordic.weatherapp.interaction.WeatherInteractor
 import com.lukakordic.weatherapp.presentation.WeatherPresenter
 import com.lukakordic.weatherapp.ui.view.WeatherView
@@ -20,11 +20,16 @@ class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInt
 
     private fun getWeatherCallback(): Callback<WeatherResponse> = object : Callback<WeatherResponse> {
         override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
-            if (response.isSuccessful) response.body()?.run { view.showWeather(this) }
+            //todo save to database
+            if (response.isSuccessful) response.body()?.run(::showData)
         }
 
         override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
             view.showNetworkError(t)
         }
+    }
+
+    private fun showData(data: WeatherResponse) {
+
     }
 }

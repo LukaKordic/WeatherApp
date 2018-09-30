@@ -3,4 +3,6 @@
     <string name="refresh_icon_text">refresh icon</string>
     <string name="weather_tab">Weather</string>
     <string name="forecast_tab">Forecast</string>
+    <string name="toolbar_title">Weather App</string>
+    <string name="weather_icon_desc">weather icon</string>
 </resources>
