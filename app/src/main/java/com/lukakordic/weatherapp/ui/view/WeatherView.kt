@@ -6,5 +6,15 @@ interface WeatherView {
 
     fun showWeatherIcon(icon: String)
 
+    fun showTemperature(temp: String)
+
+    fun showMinTemperature(minTemp: String)
+
+    fun showMaxTemperature(maxTemp: String)
+
+    fun showPressure(pressure: String)
+
+    fun showHumidity(humidity: String)
+
     fun showNetworkError(error: Throwable)
 }

@@ -1,5 +1,6 @@
 package com.lukakordic.weatherapp.presentation.impl
 
+import com.lukakordic.weatherapp.data.db.DbStorage
 import com.lukakordic.weatherapp.data.model.WeatherResponse
 import com.lukakordic.weatherapp.interaction.WeatherInteractor
 import com.lukakordic.weatherapp.presentation.WeatherPresenter
@@ -8,7 +9,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInteractor) : WeatherPresenter {
+class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInteractor,
+                                       private val dbStorage: DbStorage) : WeatherPresenter {
 
     private lateinit var view: WeatherView
 
@@ -16,12 +18,16 @@ class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInt
         this.view = view
     }
 
-    override fun getWeatherData(cityName: String) = weatherInteractor.getWeatherData(cityName, getWeatherCallback())
+    override fun fetchWeatherData(cityName: String) = weatherInteractor.getWeatherData(cityName, getWeatherCallback())
 
     private fun getWeatherCallback(): Callback<WeatherResponse> = object : Callback<WeatherResponse> {
         override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
-            //todo save to database
-            if (response.isSuccessful) response.body()?.run(::showData)
+            if (response.isSuccessful) {
+                response.body()?.run {
+                    dbStorage.saveCurrentWeather(this)
+                    showData(this)
+                }
+            }
         }
 
         override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
@@ -30,6 +36,10 @@ class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInt
     }
 
     private fun showData(data: WeatherResponse) {
-
+        showCityName(data.name)
+        showWeatherIcon(data.weather[0].icon)
     }
+
+    private fun showCityName(cityName: String) = view.showCityName(cityName)
+    private fun showWeatherIcon(icon: String) = view.showWeatherIcon(icon)
 }

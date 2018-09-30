@@ -2,6 +2,8 @@ package com.lukakordic.weatherapp.di
 
 import android.arch.persistence.room.Room
 import com.lukakordic.weatherapp.WeatherApp
+import com.lukakordic.weatherapp.data.db.DbStorage
+import com.lukakordic.weatherapp.data.db.DbStorageImpl
 import com.lukakordic.weatherapp.data.db.WeatherDb
 import com.lukakordic.weatherapp.interaction.WeatherInteractor
 import com.lukakordic.weatherapp.interaction.impl.WeatherInteractorImpl
@@ -18,7 +20,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_URL = "http://api.openweathermap.org/"
-const val API_KEY = "d126a8ce844f0df4bd46c43c805d6509"
 
 val applicationModule = module {
     single { WeatherApp.instance } //application context
@@ -40,7 +41,7 @@ val networkingModule = module {
 }
 
 val presentationModule = module {
-    factory { WeatherPresenterImpl(get()) as WeatherPresenter }
+    factory { WeatherPresenterImpl(get(), get()) as WeatherPresenter }
 }
 
 val interactionModule = module {
@@ -52,6 +53,6 @@ val dbModule = module {
         Room.databaseBuilder(get(), WeatherDb::class.java, DB_NAME)
                 .build()
     }
-
     single { get<WeatherDb>().weatherDao() }
+    single { DbStorageImpl(get()) as DbStorage }
 }

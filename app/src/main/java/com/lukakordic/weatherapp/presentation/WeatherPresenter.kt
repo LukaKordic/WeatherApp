@@ -6,5 +6,5 @@ interface WeatherPresenter {
 
     fun setView(view: WeatherView)
 
-    fun getWeatherData(cityName: String)
+    fun fetchWeatherData(cityName: String)
 }
