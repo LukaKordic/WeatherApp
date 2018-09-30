@@ -1,7 +1,7 @@
 package com.lukakordic.weatherapp.networking
 
 import com.lukakordic.weatherapp.data.response.WeatherResponse
-import com.lukakordic.weatherapp.di.modules.API_KEY
+import com.lukakordic.weatherapp.di.API_KEY
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

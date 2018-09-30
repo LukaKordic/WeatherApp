@@ -7,9 +7,8 @@ import com.lukakordic.weatherapp.ui.view.WeatherView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import javax.inject.Inject
 
-class WeatherPresenterImpl @Inject constructor(private val weatherInteractor: WeatherInteractor) : WeatherPresenter {
+class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInteractor) : WeatherPresenter {
 
     private lateinit var view: WeatherView
 
