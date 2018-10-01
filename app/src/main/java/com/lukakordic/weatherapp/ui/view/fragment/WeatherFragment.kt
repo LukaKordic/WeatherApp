@@ -8,9 +8,13 @@ import android.view.ViewGroup
 import com.lukakordic.weatherapp.R
 import com.lukakordic.weatherapp.presentation.WeatherPresenter
 import com.lukakordic.weatherapp.ui.view.WeatherView
-import com.lukakordic.weatherapp.utils.loadWeatherIcon
-import com.lukakordic.weatherapp.utils.toast
+import com.lukakordic.weatherapp.utils.NetworkUtils
+import com.lukakordic.weatherapp.utils.extensions.hide
+import com.lukakordic.weatherapp.utils.extensions.loadWeatherIcon
+import com.lukakordic.weatherapp.utils.extensions.show
+import com.lukakordic.weatherapp.utils.extensions.toast
 import kotlinx.android.synthetic.main.fragment_weather.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.koin.android.ext.android.inject
 
 class WeatherFragment : Fragment(), WeatherView {
@@ -26,7 +30,17 @@ class WeatherFragment : Fragment(), WeatherView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         weatherPresenter.setView(this)
-        weatherPresenter.fetchWeatherData("Osijek")
+        initRefresh()
+
+        if (NetworkUtils.hasNetworkAccess(activity!!)) weatherPresenter.fetchWeatherDataFromApi("Osijek")
+        else weatherPresenter.fetchWeatherDataFromDb("Osijek")
+    }
+
+    private fun initRefresh() {
+        activity?.refresh?.setOnClickListener {
+            if (NetworkUtils.hasNetworkAccess(activity!!)) weatherPresenter.fetchWeatherDataFromApi("Osijek")
+            else toast(getString(R.string.no_internet))
+        }
     }
 
     override fun showCityName(city: String) {
@@ -38,18 +52,39 @@ class WeatherFragment : Fragment(), WeatherView {
     }
 
     override fun showTemperature(temp: String) {
+        temperature.text = temp
     }
 
     override fun showMinTemperature(minTemp: String) {
+        minTemperature.text = minTemp
     }
 
     override fun showMaxTemperature(maxTemp: String) {
+        maxTemperature.text = maxTemp
     }
 
     override fun showPressure(pressure: String) {
+        pressureValue.text = pressure
     }
 
     override fun showHumidity(humidity: String) {
+        humidityValue.text = humidity
+    }
+
+    override fun showDescription(desc: String) {
+        description.text = getString(R.string.description, desc)
+    }
+
+    override fun showDetailedDesc(detailedDesc: String) {
+        detailedDescription.text = getString(R.string.detailed_description, detailedDesc)
+    }
+
+    override fun showProgress() {
+        progressBar.show()
+    }
+
+    override fun hideProgess() {
+        progressBar.hide()
     }
 
     override fun showNetworkError(error: Throwable) = toast("Jebi ga, ne radi")

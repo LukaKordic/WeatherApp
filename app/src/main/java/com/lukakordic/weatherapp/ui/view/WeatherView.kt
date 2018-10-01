@@ -16,5 +16,13 @@ interface WeatherView {
 
     fun showHumidity(humidity: String)
 
+    fun showDescription(desc: String)
+
+    fun showDetailedDesc(detailedDesc: String)
+
     fun showNetworkError(error: Throwable)
+
+    fun showProgress()
+
+    fun hideProgess()
 }

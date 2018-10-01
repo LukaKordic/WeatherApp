@@ -15,6 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -35,7 +36,7 @@ ext {
     gsonVersion = "2.3.0"
     koinVersion = "1.0.1"
     roomVersion = "1.1.1"
-
+    ankoVersion = "0.10.6"
 }
 
 dependencies {
@@ -67,4 +68,7 @@ dependencies {
     //database
     implementation "android.arch.persistence.room:runtime:$roomVersion"
     kapt "android.arch.persistence.room:compiler:$roomVersion"
+
+    //anko
+    implementation "org.jetbrains.anko:anko-commons:$ankoVersion"
 }

@@ -6,5 +6,9 @@ interface WeatherPresenter {
 
     fun setView(view: WeatherView)
 
-    fun fetchWeatherData(cityName: String)
+    fun fetchWeatherDataFromApi(cityName: String)
+
+    fun fetchWeatherDataFromDb(cityName: String)
+
+    fun onRefreshClicked(city: String)
 }

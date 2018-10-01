@@ -5,4 +5,7 @@
     <string name="forecast_tab">Forecast</string>
     <string name="toolbar_title">Weather App</string>
     <string name="weather_icon_desc">weather icon</string>
+    <string name="description">%s</string>
+    <string name="detailed_description">%s</string>
+    <string name="no_internet">No Internet connection</string>
 </resources>

@@ -5,7 +5,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.lukakordic.weatherapp.data.model.WeatherResponse
-import com.lukakordic.weatherapp.utils.WEATHER_TABLE
+import com.lukakordic.weatherapp.utils.constants.WEATHER_TABLE
 
 @Dao
 interface WeatherDao {

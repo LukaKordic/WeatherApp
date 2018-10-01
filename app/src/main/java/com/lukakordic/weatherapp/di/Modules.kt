@@ -5,12 +5,14 @@ import com.lukakordic.weatherapp.WeatherApp
 import com.lukakordic.weatherapp.data.db.DbStorage
 import com.lukakordic.weatherapp.data.db.DbStorageImpl
 import com.lukakordic.weatherapp.data.db.WeatherDb
+import com.lukakordic.weatherapp.interaction.ForecastInteractor
 import com.lukakordic.weatherapp.interaction.WeatherInteractor
+import com.lukakordic.weatherapp.interaction.impl.ForecastInteractorImpl
 import com.lukakordic.weatherapp.interaction.impl.WeatherInteractorImpl
 import com.lukakordic.weatherapp.networking.WeatherApiService
 import com.lukakordic.weatherapp.presentation.WeatherPresenter
 import com.lukakordic.weatherapp.presentation.impl.WeatherPresenterImpl
-import com.lukakordic.weatherapp.utils.DB_NAME
+import com.lukakordic.weatherapp.utils.constants.DB_NAME
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -46,11 +48,13 @@ val presentationModule = module {
 
 val interactionModule = module {
     factory { WeatherInteractorImpl(get()) as WeatherInteractor }
+    factory { ForecastInteractorImpl(get()) as ForecastInteractor }
 }
 
 val dbModule = module {
     single {
         Room.databaseBuilder(get(), WeatherDb::class.java, DB_NAME)
+                .allowMainThreadQueries()
                 .build()
     }
     single { get<WeatherDb>().weatherDao() }

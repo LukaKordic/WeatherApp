@@ -1,6 +1,7 @@
-package com.lukakordic.weatherapp.utils
+package com.lukakordic.weatherapp.utils.extensions
 
 import android.support.v4.app.Fragment
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -13,4 +14,12 @@ fun Fragment.toast(message: String) {
 
 fun ImageView.loadWeatherIcon(url: String) {
     Glide.with(this).load(BASE_IMAGE_URL + url).into(this)
+}
+
+fun View.show() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.hide() {
+    this.visibility = View.GONE
 }
