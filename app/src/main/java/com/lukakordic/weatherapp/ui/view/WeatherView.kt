@@ -25,4 +25,6 @@ interface WeatherView {
     fun showProgress()
 
     fun hideProgess()
+
+    fun showNoInternetToast()
 }

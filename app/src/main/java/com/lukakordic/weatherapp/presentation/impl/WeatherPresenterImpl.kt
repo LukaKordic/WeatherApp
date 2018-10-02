@@ -6,6 +6,7 @@ import com.lukakordic.weatherapp.interaction.WeatherInteractor
 import com.lukakordic.weatherapp.presentation.WeatherPresenter
 import com.lukakordic.weatherapp.ui.view.WeatherView
 import com.lukakordic.weatherapp.utils.DataHelpers
+import com.lukakordic.weatherapp.utils.constants.CITY_NAME
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,13 +21,14 @@ class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInt
 
     override fun fetchWeatherDataFromApi(cityName: String) {
         view.showProgress()
-        weatherInteractor.getWeatherData(cityName, getWeatherCallback())
+        val city = if (cityName.isNotBlank()) cityName else CITY_NAME //if city is not searched for, use current location if available. Use Osijek as default if none of those apply
+        weatherInteractor.getWeatherData(city, getWeatherCallback())
     }
 
     override fun fetchWeatherDataFromDb(cityName: String) {
-        view.showProgress()
         val data = dbStorage.getCurrentWeatherForCity(cityName)
         if (data != null) showData(data) // this can be null if there is nothing in db
+        else view.showNoInternetToast()
         view.hideProgess()
     }
 
@@ -36,7 +38,7 @@ class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInt
         override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
             if (response.isSuccessful) {
                 response.body()?.run {
-                    dbStorage.saveCurrentWeather(this)
+                    dbStorage.saveCurrentWeatherData(this)
                     showData(this)
                     view.hideProgess()
                 }

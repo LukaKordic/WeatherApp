@@ -9,6 +9,7 @@ import com.lukakordic.weatherapp.R
 import com.lukakordic.weatherapp.presentation.WeatherPresenter
 import com.lukakordic.weatherapp.ui.view.WeatherView
 import com.lukakordic.weatherapp.utils.NetworkUtils
+import com.lukakordic.weatherapp.utils.constants.CITY_NAME
 import com.lukakordic.weatherapp.utils.extensions.hide
 import com.lukakordic.weatherapp.utils.extensions.loadWeatherIcon
 import com.lukakordic.weatherapp.utils.extensions.show
@@ -30,23 +31,25 @@ class WeatherFragment : Fragment(), WeatherView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         weatherPresenter.setView(this)
-        activity?.refresh?.setOnClickListener { refreshData() }
+        activity?.refresh?.setOnClickListener { refreshData(CITY_NAME) }
 
-        if (NetworkUtils.hasNetworkAccess(activity!!)) weatherPresenter.fetchWeatherDataFromApi("Osijek")
-        else weatherPresenter.fetchWeatherDataFromDb("Osijek")
+        if (hasConnection()) weatherPresenter.fetchWeatherDataFromApi(CITY_NAME)
+        else weatherPresenter.fetchWeatherDataFromDb(CITY_NAME)
     }
 
-    private fun refreshData() {
-        if (NetworkUtils.hasNetworkAccess(activity!!)) weatherPresenter.onRefreshClicked("Osijek")
+    private fun refreshData(city: String) {
+        if (hasConnection()) weatherPresenter.onRefreshClicked(city)
         else toast(getString(R.string.no_internet))
     }
+
+    private fun hasConnection(): Boolean = NetworkUtils.hasNetworkAccess(activity!!)
 
     override fun showCityName(city: String) {
         cityName.text = city
     }
 
     override fun showWeatherIcon(icon: String) {
-        weatherIcon.loadWeatherIcon(icon)
+        forecastIcon.loadWeatherIcon(icon)
     }
 
     override fun showTemperature(temp: Double) {
@@ -77,13 +80,12 @@ class WeatherFragment : Fragment(), WeatherView {
         detailedDescription.text = getString(R.string.detailed_description, detailedDesc)
     }
 
-    override fun showProgress() {
-        progressBar.show()
-    }
+    override fun showProgress() = progressBar.show()
 
-    override fun hideProgess() {
-        progressBar.hide()
-    }
+    override fun hideProgess() = progressBar.hide()
 
-    override fun showNetworkError(error: Throwable) = toast("Jebi ga, ne radi")
+    override fun showNoInternetToast() = toast(getString(R.string.connect_and_refresh))
+
+    override fun showNetworkError(error: Throwable) = toast(error.message
+            ?: getString(R.string.network_error))
 }

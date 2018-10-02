@@ -10,7 +10,9 @@ import com.lukakordic.weatherapp.interaction.WeatherInteractor
 import com.lukakordic.weatherapp.interaction.impl.ForecastInteractorImpl
 import com.lukakordic.weatherapp.interaction.impl.WeatherInteractorImpl
 import com.lukakordic.weatherapp.networking.WeatherApiService
+import com.lukakordic.weatherapp.presentation.ForecastPresenter
 import com.lukakordic.weatherapp.presentation.WeatherPresenter
+import com.lukakordic.weatherapp.presentation.impl.ForecastPresenterImpl
 import com.lukakordic.weatherapp.presentation.impl.WeatherPresenterImpl
 import com.lukakordic.weatherapp.utils.constants.DB_NAME
 import okhttp3.Interceptor
@@ -44,6 +46,7 @@ val networkingModule = module {
 
 val presentationModule = module {
     factory { WeatherPresenterImpl(get(), get()) as WeatherPresenter }
+    factory { ForecastPresenterImpl(get(), get()) as ForecastPresenter }
 }
 
 val interactionModule = module {
@@ -58,5 +61,6 @@ val dbModule = module {
                 .build()
     }
     single { get<WeatherDb>().weatherDao() }
-    single { DbStorageImpl(get()) as DbStorage }
+    single { get<WeatherDb>().forecastDao() }
+    single { DbStorageImpl(get(), get()) as DbStorage }
 }
