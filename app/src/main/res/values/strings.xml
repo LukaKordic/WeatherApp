@@ -8,4 +8,9 @@
     <string name="description">%s</string>
     <string name="detailed_description">%s</string>
     <string name="no_internet">No Internet connection</string>
+    <string name="temperature">Temp: %.2f°C</string>
+    <string name="min_temp">Min: %.2f°C</string>
+    <string name="max_temp">Max: %.2f°C</string>
+    <string name="pressure">Pressure: %.2fhPa</string>
+    <string name="humidity">Humidity: %d</string>
 </resources>

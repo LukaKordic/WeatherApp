@@ -12,7 +12,6 @@ import retrofit2.Response
 
 class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInteractor,
                                        private val dbStorage: DbStorage) : WeatherPresenter {
-
     private lateinit var view: WeatherView
 
     override fun setView(view: WeatherView) {
@@ -24,7 +23,14 @@ class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInt
         weatherInteractor.getWeatherData(cityName, getWeatherCallback())
     }
 
-    override fun fetchWeatherDataFromDb(cityName: String) = dbStorage.getCurrentWeatherForCity(cityName).run(::showData) //todo handle no result case
+    override fun fetchWeatherDataFromDb(cityName: String) {
+        view.showProgress()
+        val data = dbStorage.getCurrentWeatherForCity(cityName)
+        if (data != null) showData(data) // this can be null if there is nothing in db
+        view.hideProgess()
+    }
+
+    override fun onRefreshClicked(city: String) = fetchWeatherDataFromApi(city)
 
     private fun getWeatherCallback(): Callback<WeatherResponse> = object : Callback<WeatherResponse> {
         override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
@@ -42,16 +48,14 @@ class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInt
         }
     }
 
-    override fun onRefreshClicked(city: String) = fetchWeatherDataFromApi(city)
-
     private fun showData(data: WeatherResponse) {
         showCityName(data.name)
         showWeatherIcon(data.weather[0].icon)
-        showTemperature(DataHelpers.kelvinToCelsius(data.main.temp).toString())
-        showMinTemperature(DataHelpers.kelvinToCelsius(data.main.tempMin).toString())
-        showMaxTemperature(DataHelpers.kelvinToCelsius(data.main.tempMax).toString())
-        showPressure(data.main.pressure.toString())
-        showHumidity(data.main.humidity.toString())
+        showTemperature(DataHelpers.kelvinToCelsius(data.main.temp))
+        showMinTemperature(DataHelpers.kelvinToCelsius(data.main.tempMin))
+        showMaxTemperature(DataHelpers.kelvinToCelsius(data.main.tempMax))
+        showPressure(data.main.pressure)
+        showHumidity(data.main.humidity)
         showDescription(data.weather[0].main)
         showDetailedDesc(data.weather[0].description)
     }
@@ -60,15 +64,15 @@ class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInt
 
     private fun showWeatherIcon(icon: String) = view.showWeatherIcon(icon)
 
-    private fun showTemperature(temperature: String) = view.showTemperature(temperature)
+    private fun showTemperature(temperature: Double) = view.showTemperature(temperature)
 
-    private fun showMinTemperature(minTemperature: String) = view.showMinTemperature(minTemperature)
+    private fun showMinTemperature(minTemperature: Double) = view.showMinTemperature(minTemperature)
 
-    private fun showMaxTemperature(maxTemperature: String) = view.showMaxTemperature(maxTemperature)
+    private fun showMaxTemperature(maxTemperature: Double) = view.showMaxTemperature(maxTemperature)
 
-    private fun showPressure(pressure: String) = view.showPressure(pressure)
+    private fun showPressure(pressure: Double) = view.showPressure(pressure)
 
-    private fun showHumidity(humidity: String) = view.showHumidity(humidity)
+    private fun showHumidity(humidity: Int) = view.showHumidity(humidity)
 
     private fun showDescription(desc: String) = view.showDescription(desc)
 

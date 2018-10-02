@@ -22,7 +22,7 @@ class WeatherFragment : Fragment(), WeatherView {
     private val weatherPresenter: WeatherPresenter by inject()
 
     companion object {
-        fun getInstance() = WeatherFragment()
+        fun getInstance() = WeatherFragment() //use getInstance for fragment creation when passing arguments in Bundle
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -30,17 +30,15 @@ class WeatherFragment : Fragment(), WeatherView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         weatherPresenter.setView(this)
-        initRefresh()
+        activity?.refresh?.setOnClickListener { refreshData() }
 
         if (NetworkUtils.hasNetworkAccess(activity!!)) weatherPresenter.fetchWeatherDataFromApi("Osijek")
         else weatherPresenter.fetchWeatherDataFromDb("Osijek")
     }
 
-    private fun initRefresh() {
-        activity?.refresh?.setOnClickListener {
-            if (NetworkUtils.hasNetworkAccess(activity!!)) weatherPresenter.fetchWeatherDataFromApi("Osijek")
-            else toast(getString(R.string.no_internet))
-        }
+    private fun refreshData() {
+        if (NetworkUtils.hasNetworkAccess(activity!!)) weatherPresenter.onRefreshClicked("Osijek")
+        else toast(getString(R.string.no_internet))
     }
 
     override fun showCityName(city: String) {
@@ -51,24 +49,24 @@ class WeatherFragment : Fragment(), WeatherView {
         weatherIcon.loadWeatherIcon(icon)
     }
 
-    override fun showTemperature(temp: String) {
-        temperature.text = temp
+    override fun showTemperature(temp: Double) {
+        temperature.text = getString(R.string.temperature, temp)
     }
 
-    override fun showMinTemperature(minTemp: String) {
-        minTemperature.text = minTemp
+    override fun showMinTemperature(minTemp: Double) {
+        minTemperature.text = getString(R.string.min_temp, minTemp)
     }
 
-    override fun showMaxTemperature(maxTemp: String) {
-        maxTemperature.text = maxTemp
+    override fun showMaxTemperature(maxTemp: Double) {
+        maxTemperature.text = getString(R.string.max_temp, maxTemp)
     }
 
-    override fun showPressure(pressure: String) {
-        pressureValue.text = pressure
+    override fun showPressure(pressure: Double) {
+        pressureValue.text = getString(R.string.temperature, pressure)
     }
 
-    override fun showHumidity(humidity: String) {
-        humidityValue.text = humidity
+    override fun showHumidity(humidity: Int) {
+        humidityValue.text = getString(R.string.humidity, humidity)
     }
 
     override fun showDescription(desc: String) {
