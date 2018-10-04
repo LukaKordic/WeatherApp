@@ -3,8 +3,8 @@ package com.lukakordic.weatherapp.ui.adapter
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.lukakordic.weatherapp.utils.TITLE_FORECAST
-import com.lukakordic.weatherapp.utils.TITLE_WEATHER
+import com.lukakordic.weatherapp.utils.constants.TITLE_FORECAST
+import com.lukakordic.weatherapp.utils.constants.TITLE_WEATHER
 
 class TabsPageAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 

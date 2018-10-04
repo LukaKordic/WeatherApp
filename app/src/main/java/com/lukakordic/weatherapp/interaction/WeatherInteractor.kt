@@ -1,6 +1,6 @@
 package com.lukakordic.weatherapp.interaction
 
-import com.lukakordic.weatherapp.data.response.WeatherResponse
+import com.lukakordic.weatherapp.data.model.WeatherResponse
 import retrofit2.Callback
 
 interface WeatherInteractor {

@@ -1,21 +1,20 @@
 package com.lukakordic.weatherapp
 
-import android.support.v4.app.Fragment
-import com.lukakordic.weatherapp.di.components.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
-import javax.inject.Inject
+import android.app.Application
+import com.lukakordic.weatherapp.di.*
+import org.koin.android.ext.android.startKoin
 
-class WeatherApp : DaggerApplication(), HasSupportFragmentInjector {
+class WeatherApp : Application() {
 
-    @Inject
-    lateinit var dispatchingSupportFragmentInjector: DispatchingAndroidInjector<Fragment> // TODO(inject presenters into fragments)
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return dispatchingSupportFragmentInjector
+    companion object {
+        lateinit var instance: WeatherApp
+            private set
     }
 
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> = DaggerAppComponent.builder().create(this)
+    override fun onCreate() {
+        super.onCreate()
+
+        instance = this
+        startKoin(this, listOf(applicationModule, networkingModule, presentationModule, interactionModule, dbModule))
+    }
 }

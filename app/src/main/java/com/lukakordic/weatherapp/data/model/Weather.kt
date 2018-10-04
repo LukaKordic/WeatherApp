@@ -1,4 +1,4 @@
-package com.lukakordic.weatherapp.data.response
+package com.lukakordic.weatherapp.data.model
 
 data class Weather(val id: Int,
                    val main: String,

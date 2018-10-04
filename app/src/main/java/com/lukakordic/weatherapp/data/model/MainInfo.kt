@@ -1,4 +1,4 @@
-package com.lukakordic.weatherapp.data.response
+package com.lukakordic.weatherapp.data.model
 
 import com.google.gson.annotations.SerializedName
 

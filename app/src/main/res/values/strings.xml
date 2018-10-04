@@ -3,4 +3,20 @@
     <string name="refresh_icon_text">refresh icon</string>
     <string name="weather_tab">Weather</string>
     <string name="forecast_tab">Forecast</string>
+    <string name="toolbar_title">Weather App</string>
+    <string name="weather_icon_desc">weather icon</string>
+    <string name="description">%s</string>
+    <string name="detailed_description">%s</string>
+    <string name="no_internet">No Internet connection</string>
+    <string name="temperature">Temp: %.1f°C</string>
+    <string name="min_temp">Min: %.1f°C</string>
+    <string name="max_temp">Max: %.1f°C</string>
+    <string name="pressure">Pressure: %.2f hPa</string>
+    <string name="humidity">Humidity: %d</string>
+    <string name="connect_and_refresh">Please establish internet connection and refresh</string>
+    <string name="network_error">Network error</string>
+    <string name="services_unavailable">Google play services unavailable</string>
+    <string name="empty_db">Database is empty</string>
+    <string name="enter_city_name">Enter city name</string>
+    <string name="pick_city_from_map">pick city from map</string>
 </resources>
