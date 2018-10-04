@@ -22,11 +22,12 @@
             android:layout_weight="5"
             tools:text="Osijek" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/colorPrimary"
             app:srcCompat="@drawable/ic_refresh_white_24dp"
             android:contentDescription="@string/refresh_icon_text" />
 

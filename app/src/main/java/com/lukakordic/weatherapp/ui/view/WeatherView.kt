@@ -26,5 +26,5 @@ interface WeatherView {
 
     fun hideProgess()
 
-    fun showNoInternetToast()
+    fun showDbError()
 }

@@ -13,6 +13,7 @@ import retrofit2.Response
 
 class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInteractor,
                                        private val dbStorage: DbStorage) : WeatherPresenter {
+
     private lateinit var view: WeatherView
 
     override fun setView(view: WeatherView) {
@@ -21,18 +22,16 @@ class WeatherPresenterImpl constructor(private val weatherInteractor: WeatherInt
 
     override fun fetchWeatherDataFromApi(cityName: String) {
         view.showProgress()
-        val city = if (cityName.isNotBlank()) cityName else CITY_NAME //if city is not searched for, use current location if available. Use Osijek as default if none of those apply
+        val city = if (cityName.isNotBlank()) cityName else CITY_NAME
         weatherInteractor.getWeatherData(city, getWeatherCallback())
     }
 
     override fun fetchWeatherDataFromDb(cityName: String) {
         val data = dbStorage.getCurrentWeatherForCity(cityName)
         if (data != null) showData(data) // this can be null if there is nothing in db
-        else view.showNoInternetToast()
+        else view.showDbError()
         view.hideProgess()
     }
-
-    override fun onRefreshClicked(city: String) = fetchWeatherDataFromApi(city)
 
     private fun getWeatherCallback(): Callback<WeatherResponse> = object : Callback<WeatherResponse> {
         override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {

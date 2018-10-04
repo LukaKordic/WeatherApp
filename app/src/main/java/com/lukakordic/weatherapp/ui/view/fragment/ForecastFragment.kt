@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lukakordic.weatherapp.R
-import com.lukakordic.weatherapp.data.model.Forecast
 import com.lukakordic.weatherapp.data.model.ForecastResponse
 import com.lukakordic.weatherapp.presentation.ForecastPresenter
 import com.lukakordic.weatherapp.ui.adapter.ForecastRecyclerAdapter
@@ -26,6 +25,7 @@ class ForecastFragment : Fragment(), ForecastView {
 
     private val forecastPresenter: ForecastPresenter by inject()
     private val forecastAdapter = ForecastRecyclerAdapter()
+    private lateinit var city: String
 
     companion object {
         fun getInstance() = ForecastFragment()
@@ -37,16 +37,17 @@ class ForecastFragment : Fragment(), ForecastView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         forecastPresenter.setView(this)
-        activity?.refresh?.setOnClickListener { refreshData(CITY_NAME) }
-        activity?.toolbarTitle?.text = "Osijek"
-
-        if (NetworkUtils.hasNetworkAccess(activity!!)) forecastPresenter.fetchForecastFromApi(CITY_NAME)
-        else forecastPresenter.fetchForecastFromDb(CITY_NAME)
     }
 
-    private fun refreshData(city: String) {
-        if (NetworkUtils.hasNetworkAccess(activity!!)) forecastPresenter.fetchForecastFromApi(city)
-        else toast(getString(R.string.no_internet))
+    fun storeCity(city: String) {
+        this.city = city
+        forecastAdapter.setCity(city)
+        getWeatherData()
+    }
+
+    private fun getWeatherData() {
+        if (hasConnection()) forecastPresenter.fetchForecastFromApi(city)
+        else forecastPresenter.fetchForecastFromDb(city)
     }
 
     private fun initRecycler() {
@@ -62,6 +63,8 @@ class ForecastFragment : Fragment(), ForecastView {
         forecastAdapter.updateData(data)
         initRecycler()
     }
+
+    private fun hasConnection(): Boolean = NetworkUtils.hasNetworkAccess(activity!!)
 
     override fun showProgress() = forecastProgress.show()
 

@@ -9,6 +9,4 @@ interface WeatherPresenter {
     fun fetchWeatherDataFromApi(cityName: String)
 
     fun fetchWeatherDataFromDb(cityName: String)
-
-    fun onRefreshClicked(city: String)
 }

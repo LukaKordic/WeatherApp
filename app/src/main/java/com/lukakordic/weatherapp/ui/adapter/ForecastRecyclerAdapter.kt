@@ -11,11 +11,16 @@ import com.lukakordic.weatherapp.ui.holder.ForecastViewHolder
 class ForecastRecyclerAdapter : RecyclerView.Adapter<ForecastViewHolder>() {
 
     private val forecastList = arrayListOf<Forecast>()
+    private lateinit var city: String
 
     fun updateData(data: ForecastResponse) {
         forecastList.clear()
         forecastList.addAll(data.list)
         notifyDataSetChanged()
+    }
+
+    fun setCity(city: String) {
+        this.city = city
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ForecastViewHolder {
@@ -24,7 +29,7 @@ class ForecastRecyclerAdapter : RecyclerView.Adapter<ForecastViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
-        holder.bind(forecastList[position])
+        holder.bind(forecastList[position], city)
     }
 
     override fun getItemCount(): Int = forecastList.size
